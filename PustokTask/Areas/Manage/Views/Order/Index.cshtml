@@ -1,7 +1,54 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿@model List<Order>
+<table class="table">
+    <a class="btn btn-success" asp-action="create" asp-controller="book">
+        Create
+    </a>
+    <thead>
+        <tr>
+            <th scope="col">FullName</th>
+            <th scope="col">city</th>
+            <th scope="col">Town</th>
+            <th scope="col">TotalPrice</th>
+            <th scope="col">Status</th>
+            <th scope="col">Settings</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
 
-<h1>Index</h1>
 
+                <td>@(order.AppUser != null ? order.AppUser.Fulname : "No user")</td>
+                <td>@order.City</td>
+                <td>@order.Town</td>
+                <td>@order.TotalPrice</td>
+                <td>@order.Status
+                    @if(order.Status == OrderStatus.Pending)
+                    {
+                        <a asp-action="accept" asp-controller="order" asp-route-id="@order.Id" class="btn btn-success deletebook">
+                            accept
+                        </a>
+                        <a asp-action="reject" asp-controller="order" asp-route-id="@order.Id" class="btn btn-danger deletebook">
+                            reject
+                        </a>
+                    }
+                </td>
+               
+                <td>
+                    <a class="btn btn-primary" asp-action="edit" asp-controller="order" asp-route-id="@order.Id">
+                        Edit
+                    </a>
+                    <a class="btn btn-primary" asp-action="detail" asp-controller="order" asp-route-id="@order.Id">
+                        Details
+                    </a>
+                    <a asp-action="delete" asp-controller="order" asp-route-id="@order.Id" class="btn btn-danger deletebook">
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+       
+        }
+    </tbody>
+</table>
